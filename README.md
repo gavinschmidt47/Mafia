@@ -1,0 +1,6 @@
+####MAFIA####
+
+Based on the titular party game, Mafia, this app aims to remove the need for a Game Master or Story-teller. I have long wanted to play Mafia with a new group of people and not have to be the person standing in front of everyone, knowing every detail, and orchestrating every action. While this game does exist online in the Arcade on Starcraft II or on Town of Salem, there is something to be said about being in person and using social deduction of non-verbal queues. I found that the best alternative to be found is an app to assist and replace a Game Master or Story-teller. This app strives to expand options otherwise unavailable or too complex for a "normal" analog game of Mafia.
+
+###HOW TO PLAY###
+The game will walk you through how to setup. Then, each day, there will be a designated "Reader of Events". This will be the first player each day and night and will move to the second player if the first dies. Each day, the "Reader of Events" will read the events of the night, deaths, saves, names of the deceased and their roles. Then, the phone will be passed twice for voting during the day. The phone will make two full rotations during the night, as well. Every player will be given something to do on the screen at night, so do not use this as a reason for deduction.
