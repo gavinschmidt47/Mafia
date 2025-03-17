@@ -8,6 +8,7 @@ public class InfoController : MonoBehaviour
 
     //TownName Info
     public GameObject townError;
+    public TMPro.TMP_InputField townNameInput;
     public GameObject townPanel;
 
     //Population Info
@@ -91,6 +92,12 @@ public class InfoController : MonoBehaviour
 
     //Players Info
     public GameObject playersPanel;
+    public GameObject firstPanel;
+    public GameObject currPlayer;
+    public TMPro.TMP_Text currPlayerText;
+    public TMPro.TMP_InputField playerNameInput;
+    public GameObject submitButton;
+    private int currPlayerNum = 1;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -106,32 +113,66 @@ public class InfoController : MonoBehaviour
         populationPanel.SetActive(false);
         moreError.SetActive(false);
         formatError.SetActive(false);
+    }
 
+    public void SetTownName()
+    {
+        gameInfo.makeTName(townNameInput.text);
+    }
+
+    public void SetPopulation()
+    {
+        gameInfo.makePop(populationText.text);
     }
 
     public void ShowTownRoles()
     {
         townRoles.SetActive(!townRoles.activeSelf);
+
+        mafiaRoles.SetActive(false);
+        triadRoles.SetActive(false);
+        cultRoles.SetActive(false);
+        independentRoles.SetActive(false);
     }
 
     public void ShowMafiaRoles()
     {
         mafiaRoles.SetActive(!mafiaRoles.activeSelf);
+
+        townRoles.SetActive(false);
+        triadRoles.SetActive(false);
+        cultRoles.SetActive(false);
+        independentRoles.SetActive(false);
     }
 
     public void ShowTriadRoles()
     {
         triadRoles.SetActive(!triadRoles.activeSelf);
+
+        townRoles.SetActive(false);
+        mafiaRoles.SetActive(false);
+        cultRoles.SetActive(false);
+        independentRoles.SetActive(false);
     }
 
     public void ShowCultRoles()
     {
         cultRoles.SetActive(!cultRoles.activeSelf);
+
+        townRoles.SetActive(false);
+        mafiaRoles.SetActive(false);
+        triadRoles.SetActive(false);
+        independentRoles.SetActive(false);
     }
 
     public void ShowIndependentRoles()
     {
         independentRoles.SetActive(!independentRoles.activeSelf);
+
+        townRoles.SetActive(false);
+        mafiaRoles.SetActive(false);
+        triadRoles.SetActive(false);
+        cultRoles.SetActive(false);
     }
 
     public void SetRoles()
@@ -260,6 +301,8 @@ public class InfoController : MonoBehaviour
             rolesLess.SetActive(false);
             rolesMore.SetActive(false);
             playersPanel.SetActive(true);
+
+            gameInfo.makeList();
         }
         else if (totalRoles < gameInfo.population)
         {
@@ -281,5 +324,25 @@ public class InfoController : MonoBehaviour
         rolesLess.SetActive(false);
         rolesMore.SetActive(false);
         playersPanel.SetActive(true);
+
+        gameInfo.makeList();
+    }
+
+    public void NextPlayer()
+    {
+        gameInfo.AddPlayer(playerNameInput.text, currPlayerNum);
+        playerNameInput.text = "";
+        if (currPlayerNum < gameInfo.population)
+        {
+            firstPanel.SetActive(false);
+            currPlayerNum++;
+            currPlayerText.text = "Player " + currPlayerNum + " of " + gameInfo.population;
+            currPlayer.SetActive(true);
+        }
+        else
+        {
+            currPlayer.SetActive(false);
+            submitButton.SetActive(true);
+        }
     }
 }

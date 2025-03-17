@@ -1,5 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
+
 
 [CreateAssetMenu(fileName = "GameInfo", menuName = "ScriptableObjects/GameInfo", order = 1)]
 public class GameInfo : ScriptableObject
@@ -76,6 +79,24 @@ public class GameInfo : ScriptableObject
     public bool serialKiller;
     public bool survivor;
 
+    //Players
+    public Dictionary<string, Player> players = new Dictionary<string, Player>();
+    public List<string> roleslist = new List<string>();
+
+    public struct Player
+    {
+        public string name;
+        public int number;
+        public string role;
+
+        public Player(string name, int number, string role)
+        {
+            this.name = name;
+            this.number = number;
+            this.role = role;
+        }
+    }
+
     //Called At Start Of Each Scene
     private void OnEnable()
     {
@@ -126,6 +147,7 @@ public class GameInfo : ScriptableObject
         {
             infoController.populationText.text = townName + " has a population of ";
             infoController.populationPanel.SetActive(true);
+            infoController.moreError.SetActive(false);
             infoController.formatError.SetActive(true);
             return;
         }
@@ -145,5 +167,112 @@ public class GameInfo : ScriptableObject
             //Activate Roles Panel
             infoController.rolesPanel.SetActive(true);
         }
+    }
+
+    public void makeList()
+    {
+        roleslist.Clear();
+
+        // Town Roles
+        if (angels > 0) 
+        {
+            for (int i = 0; i < angels; i++)
+                roleslist.Add("Angels");
+        }
+        if (bodyguard) roleslist.Add("Bodyguard");
+        if (bride) roleslist.Add("Bride");
+        if (groom) roleslist.Add("Groom");
+        if (busDriver) roleslist.Add("Bus Driver");
+        if (crier) roleslist.Add("Crier");
+        if (cupid) roleslist.Add("Cupid");
+        if (escort) roleslist.Add("Escort");
+        if (gwag) roleslist.Add("Gwag");
+        if (investigator) roleslist.Add("Investigator");
+        if (jailor) roleslist.Add("Jailor");
+        if (lookout) roleslist.Add("Lookout");
+        if (marshall) roleslist.Add("Marshall");
+        if (martialArtist) roleslist.Add("Martial Artist");
+        if (masonLeader) roleslist.Add("Mason Leader");
+        if (mason > 0) 
+        {
+            for (int i = 0; i < mason; i++)
+                roleslist.Add("Mason");
+        }
+        if (sheriff) roleslist.Add("Sheriff");
+        if (undercoverCop) roleslist.Add("Undercover Cop");
+        if (veteran) roleslist.Add("Veteran");
+        if (vigilante) roleslist.Add("Vigilante");
+
+        // Mafia Roles
+        if (agent) roleslist.Add("Agent");
+        if (beguiler) roleslist.Add("Beguiler");
+        if (blackmailer) roleslist.Add("Blackmailer");
+        if (consort) roleslist.Add("Consort");
+        if (framer) roleslist.Add("Framer");
+        if (godfather) roleslist.Add("Godfather");
+        if (kidnapper) roleslist.Add("Kidnapper");
+        if (madeMan) roleslist.Add("Made Man");
+        if (mafioso > 0) 
+        {
+            for (int i = 0; i < mafioso; i++)
+                roleslist.Add("Mafioso");
+        }
+        if (mobWife) roleslist.Add("Mob Wife");
+
+        // Triad Roles
+        if (administrator) roleslist.Add("Administrator");
+        if (deceiver) roleslist.Add("Deceiver");
+        if (dragonHead) roleslist.Add("Dragon Head");
+        if (enforcer > 0) 
+        {
+            for (int i = 0; i < enforcer; i++)
+                roleslist.Add("Enforcer");
+        }
+        if (forger) roleslist.Add("Forger");
+        if (interrogator) roleslist.Add("Interrogator");
+        if (initiator) roleslist.Add("Initiator");
+        if (liason) roleslist.Add("Liason");
+        if (silencer) roleslist.Add("Silencer");
+        if (vanguard) roleslist.Add("Vanguard");
+
+        // Cult Roles
+        if (acolyte) roleslist.Add("Acolyte");
+        if (cultist > 0) 
+        {
+            for (int i = 0; i < cultist; i++)
+                roleslist.Add("Cultist");
+        }
+        if (witchDoctor) roleslist.Add("Witch Doctor");
+
+        // Independent Roles
+        if (amnesiac) roleslist.Add("Amnesiac");
+        if (arsonist) roleslist.Add("Arsonist");
+        if (elector) roleslist.Add("Elector");
+        if (electromaniac) roleslist.Add("Electromaniac");
+        if (executioner) roleslist.Add("Executioner");
+        if (jester) roleslist.Add("Jester");
+        if (massMurderer) roleslist.Add("Mass Murderer");
+        if (serialKiller) roleslist.Add("Serial Killer");
+        if (survivor) roleslist.Add("Survivor");
+
+        int j = population - roleslist.Count;
+        for (int i = 0; i < j; ++i)
+            roleslist.Add("Townsman");
+    }
+
+    public void AddPlayer(string name, int num)
+    {
+        string role = "";
+        if (roleslist.Count == 0)
+        {
+            role = "Townsman";
+        }
+
+        int index = UnityEngine.Random.Range(0, roleslist.Count);
+        role = roleslist[index];
+        roleslist.RemoveAt(index);
+
+        Player player = new Player(name, num, role);
+        players.Add(name, player);
     }
 }
